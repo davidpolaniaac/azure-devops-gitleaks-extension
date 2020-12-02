@@ -1,0 +1,70 @@
+name: $(Build.SourceBranchName).$(date:yyyyMMdd)$(rev:.r)
+
+variables:
+  - template: pipelines/vars.yml
+
+resources:
+  - repo: self
+    clean: all
+    fetchDepth: 1
+
+trigger:
+  branches:
+    include:
+      - master
+      - feature/*
+
+stages:
+  - stage: Build
+    jobs:
+      - job: Build
+        pool: 
+          name: Build
+          demands: 
+            - sh
+        workspace:
+          clean: all
+        steps:
+          - template: pipelines/build.yml
+          - ${{ if  eq(variables['Build.SourceBranch'], 'refs/heads/master') }}:
+            - template: pipelines/publish.yml
+
+  - stage: DeployDEV
+    displayName: Deploy DEV
+    dependsOn: Build
+    condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
+    jobs:
+      - deployment: DeployDEV
+        pool: Build
+        environment: 'DEV'
+        workspace:
+          clean: all
+        variables: 
+          - template: pipelines/vars-dev.yml
+        strategy:
+            runOnce:
+              deploy:
+                steps:
+                  - template: pipelines/deploy.yml
+                    parameters:
+                      connectedServiceName: MarketPlaceDEV
+
+  - stage: DeployPDN
+    displayName: Deploy PDN
+    dependsOn: DeployDEV
+    condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
+    jobs:
+      - deployment: DeployPDN
+        pool: Build
+        environment: 'PDN'
+        variables: 
+          - template: pipelines/vars-pdn.yml
+        workspace:
+          clean: all
+        strategy:
+            runOnce:
+              deploy:
+                steps:
+                  - template: pipelines/deploy.yml
+                    parameters:
+                      connectedServiceName: MarketPlacePDN

@@ -1,0 +1,4 @@
+steps:
+- ${{ if eq(variables['Build.GitScan'], 'true') }}:
+  - task: 2A41D796-5F66-441C-B225-B6B0D6863071@1
+    displayName: 'Git Scan'

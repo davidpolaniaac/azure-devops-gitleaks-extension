@@ -1,0 +1,25 @@
+{
+  "name": "gitleaks",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "azure-pipelines-task-lib": "^2.11.3",
+    "azure-pipelines-tool-lib": "^1.0.0-preview.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.15",
+    "@types/jest-when": "^2.7.2",
+    "@types/node": "^13.11.0",
+    "@types/q": "^1.5.4",
+    "jest": "^26.6.0",
+    "jest-when": "^2.8.0",
+    "ts-jest": "^26.4.1",
+    "typescript": "^3.8.3"
+  }
+}

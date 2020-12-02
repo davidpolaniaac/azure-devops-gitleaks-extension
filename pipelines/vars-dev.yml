@@ -1,0 +1,7 @@
+variables:
+  - name: Extension.Organization
+    value: ""
+  - name: Extension.Publisher
+    value: "davidpolaniaac"
+  - name: Extension.Tag
+    value: "dev"

@@ -1,0 +1,41 @@
+parameters:
+- name: connectedServiceName 
+  type: string 
+  default: ""
+
+steps:
+
+    - checkout: none
+
+    - task: DownloadBuildArtifacts@0
+      displayName: 'Download Build Artifacts'
+      inputs:
+        artifactName: Artifact
+        downloadPath: $(System.DefaultWorkingDirectory)
+
+    - task: TfxInstaller@3
+      displayName: 'Install tfx-cli'
+      inputs:
+        version: '0.8.x'
+        checkLatest: true
+
+    - task: PublishAzureDevOpsExtension@3
+      displayName: 'Publish Extension'
+      name: 'publish'
+      inputs:
+        connectedServiceName: ${{ parameters.connectedServiceName }}
+        fileType: vsix
+        vsixFile: '$(System.DefaultWorkingDirectory)/Artifact/*.vsix'
+        publisherId: '$(Extension.Publisher)'
+        extensionId: '$(Extension.Id)'
+        extensionTag: '$(Extension.Tag)'
+        updateTasksVersion: false
+        extensionVisibility: private
+        shareWith: '$(Extension.Organization)'
+
+    - task: IsAzureDevOpsExtensionValid@3
+      displayName: 'Check Marketplace validation status'
+      inputs:
+        connectedServiceName: ${{ parameters.connectedServiceName }}
+        method: 'vsix'
+        vsixFile: '$(publish.Extension.OutputPath)'

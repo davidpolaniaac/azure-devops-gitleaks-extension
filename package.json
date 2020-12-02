@@ -1,0 +1,43 @@
+{
+  "name": "hygieia",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "prebuild": "node scripts/install.js",
+    "build": "node scripts/build.js",
+    "prettier": "prettier --config .prettierrc '**/*.ts' --write",
+    "package": "node scripts/package.js",
+    "create": "npm run clean && tfx extension create --output-path dist --rev-version",
+    "clean": "rimraf ./dist",
+    "test": "jest --clearCache &&  jest --coverage"
+  },
+  "jest": {
+    "coverageReporters": [
+      "text",
+      "lcov",
+      "json",
+      "text",
+      "clover",
+      "cobertura",
+      "html"
+    ],
+    "testResultsProcessor": "jest-sonar-reporter"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "assert": "^1.4.1",
+    "command-line-args": "^5.0.2",
+    "command-line-usage": "^5.0.5",
+    "compare-versions": "^3.4.0",
+    "edit-json-file": "^1.1.0",
+    "jest": "^26.6.0",
+    "jest-sonar": "^0.2.11",
+    "jest-sonar-reporter": "^2.0.0",
+    "prettier": "^2.1.2",
+    "rimraf": "^2.6.2",
+    "tfx-cli": "^0.7.1",
+    "ts-jest": "^26.4.1"
+  }
+}

@@ -1,0 +1,48 @@
+{
+    "id": "2a41d796-5f66-441c-b225-b6b0d6863071",
+    "name": "gitleaks",
+    "friendlyName": "Gitleaks",
+    "description": "Scan git repos for secrets using regex and entropy",
+    "helpMarkDown": "BuildNumber",
+    "category": "Utility",
+    "visibility": [
+        "Release",
+        "Build"
+    ],
+    "demands": [
+        "npm"
+    ],
+    "author": "davidpolaniaac",
+    "version": {
+        "Major": 1,
+        "Minor": 0,
+        "Patch": 25
+    },
+    "instanceNameFormat": "Git scan",
+    "inputs": [
+        {
+            "name": "rulesFile",
+            "aliases": [
+                "rulesTomlFile"
+            ],
+            "type": "filePath",
+            "label": "Rules",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "Load config from target repo. Config file must be '.gitleaks.toml' or 'gitleaks.toml'"
+        },
+        {
+            "name": "workingDirectory",
+            "type": "filePath",
+            "label": "Working directory",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "Working directory in which to run the git scan. If not specified, the repository root directory is used."
+        }
+    ],
+    "execution": {
+        "Node10": {
+            "target": "index.js"
+        }
+    }
+}

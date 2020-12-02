@@ -1,0 +1,42 @@
+steps:
+  - checkout: none
+  
+  - task: TfxInstaller@3
+    displayName: 'Install tfx-cli'
+    inputs:
+      version: '0.8.x'
+      checkLatest: true
+
+  - task: PackageAzureDevOpsExtension@3
+    displayName: 'Package Extension'
+    name: 'packageStep'
+    inputs:
+      rootFolder: '$(Pipeline.Workspace)/s'
+      outputPath: '$(Build.ArtifactStagingDirectory)'
+      extensionId: '$(Extension.Id)'
+      extensionName: '$(Extension.Name)'
+      extensionVersion: '$(Extension.Version)'
+      updateTasksVersion: true
+      updateTasksVersionType: patch
+      extensionVisibility: private
+
+  - task: PublishBuildArtifacts@1
+    displayName: "Publish Artifact to Azure DevOps"
+    inputs:
+      PathtoPublish: $(Build.ArtifactStagingDirectory)
+      ArtifactName: Artifact
+
+  - task: ArtifactoryGenericUpload@1
+    displayName: "Publish Artifact to Artifactory"
+    inputs:
+      artifactoryService: "Artifactory"
+      fileSpec: |
+        {
+          "files": [
+            {
+              "pattern": "$(Build.ArtifactStagingDirectory)/*.vsix",
+              "target": "$(Artifactory.Repository)/$(Build.BuildNumber)/"
+            }
+          ]
+        }
+      collectBuildInfo: true
