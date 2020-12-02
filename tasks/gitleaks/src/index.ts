@@ -89,7 +89,7 @@ export async function scan(cliPath: string): Promise<void> {
     try {
       if(fs.existsSync(specPath)){
         tl.debug("Create report html");
-        console.warn("Repository leaks were detected, visit the Extensions tab to see the report");
+        tl.warning("Repository leaks were detected, visit the Extensions tab to see the report");
         await reportHTML(specPath, pathReport);
       }
       tl.debug("Remove report");

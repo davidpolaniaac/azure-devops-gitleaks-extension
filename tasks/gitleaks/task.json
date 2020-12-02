@@ -3,7 +3,7 @@
     "name": "gitleaks",
     "friendlyName": "Gitleaks",
     "description": "Scan git repos for secrets using regex and entropy",
-    "helpMarkDown": "BuildNumber",
+    "helpMarkDown": "Gitleaks is a SAST tool for detecting hardcoded secrets",
     "category": "Utility",
     "visibility": [
         "Release",
@@ -16,7 +16,7 @@
     "version": {
         "Major": 1,
         "Minor": 0,
-        "Patch": 25
+        "Patch": 26
     },
     "instanceNameFormat": "Git scan",
     "inputs": [
