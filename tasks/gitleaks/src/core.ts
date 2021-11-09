@@ -149,9 +149,7 @@ function logCliVersion(cliPath: string) {
   let cliCommand = cliJoin(cliPath, '--version');
   try {
     let res: any = execSync(cliCommand);
-    let detectedVersion = String.fromCharCode
-      .apply(null, res)
-      .trim();
+    let detectedVersion = String.fromCharCode.apply(null, res).trim();
     console.log('GitLeaks CLI version: ' + detectedVersion);
   } catch (ex) {
     console.error('Failed to get GitLeaks CLI version: ' + ex);

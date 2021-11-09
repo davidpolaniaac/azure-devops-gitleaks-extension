@@ -16,10 +16,23 @@
     "version": {
         "Major": 1,
         "Minor": 0,
-        "Patch": 26
+        "Patch": 32
     },
-    "instanceNameFormat": "Git scan",
+    "instanceNameFormat": "Git Scan",
     "inputs": [
+        {
+            "name": "type",
+            "type": "pickList",
+            "label": "Type",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "File Path or Inline Rules",
+            "options": {
+                "InlineRules": "Inline Rules",
+                "FilePath": "File Path",
+                "Default": "Default Rules"
+            }
+        },
         {
             "name": "rulesFile",
             "aliases": [
@@ -28,8 +41,22 @@
             "type": "filePath",
             "label": "Rules",
             "defaultValue": "",
-            "required": false,
-            "helpMarkDown": "Load config from target repo. Config file must be '.gitleaks.toml' or 'gitleaks.toml'"
+            "required": true,
+            "helpMarkDown": "Load config from target repo. Config file must be '.gitleaks.toml' or 'gitleaks.toml'",
+            "visibleRule": "type = FilePath"
+        },
+        {
+            "name": "rules",
+            "type": "multiLine",
+            "label": "Rules",
+            "defaultValue": "[[rules]]",
+            "required": true,
+            "properties": {
+                "resizable": true,
+                "rows": "20"
+            },
+            "helpMarkDown": "Write your rules and have fun",
+            "visibleRule": "type = InlineRules"
         },
         {
             "name": "workingDirectory",

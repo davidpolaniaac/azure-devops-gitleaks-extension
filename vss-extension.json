@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "gitleaks",
     "name": "Gitleaks",
-    "version": "1.0.26",
+    "version": "1.0.32",
     "publisher": "davidpolaniaac",
     "targets": [
         {
@@ -34,9 +34,8 @@
             "path": "tasks/gitleaks/dist"
         },
         {
-            "path": "decorators/gitleaks.yml",
-            "addressable": true,
-            "contentType": "text/plain"
+            "path": "static",
+            "addressable": true
         }
     ],
     "contributions": [
@@ -49,41 +48,6 @@
             "properties": {
                 "name": "tasks/gitleaks/dist"
             }
-        },
-        {
-            "id": "feature-gitleaks",
-            "type": "ms.vss-web.feature",
-            "description": "Git scan in all pipelines",
-            "targets": [
-                "ms.vss-web.managed-features"
-            ],
-            "properties": {
-                "name": "Git Scan",
-                "userConfigurable": false,
-                "hostConfigurable": true,
-                "defaultState": false,
-                "hostScopes": [
-                    "project"
-                ]
-            }
-        },
-        {
-            "id": "gitleaks-decorator",
-            "type": "ms.azure-pipelines.pipeline-decorator",
-            "targets": [
-                "ms.azure-pipelines-agent-job.post-checkout-tasks"
-            ],
-            "properties": {
-                "template": "decorators/gitleaks.yml"
-            },
-            "constraints": [
-                {
-                    "name": "Feature",
-                    "properties": {
-                        "featureId": "davidpolaniaac.gitleaks.feature-gitleaks"
-                    }
-                }
-            ]
         }
     ]
 }

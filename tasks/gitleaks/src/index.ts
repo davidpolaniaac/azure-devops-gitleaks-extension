@@ -58,10 +58,62 @@ async function reportHTML(result: string, pathReport: string): Promise<void> {
   );
 }
 
+export function getRules(): string {
+  const type = tl.getInput('type');
+  let rulesPath: string = `${__dirname}/rules.toml`;
+
+  if (type == 'InlineRules') {
+    const temp: string = tl.getVariable('Agent.TempDirectory') as string;
+    const rules = tl.getInput('rules', false);
+    rulesPath = temp + '/.gitscan-rules.toml';
+    fs.writeFileSync(rulesPath, rules, { encoding: 'utf8', flag: 'w' });
+  } else if (type == 'FilePath') {
+    const rulesFile = tl.getPathInput('rulesFile', false) as string;
+    if (fs.existsSync(rulesFile)) {
+      rulesPath = rulesFile;
+    } else {
+      tl.warning('No script to execute');
+    }
+  } else {
+    tl.debug('using default rules');
+  }
+
+  return rulesPath;
+}
+
+export function pullRequestConfig(pathReport: string, workDir: string): void {
+  const sourceBranch: string = tl.getVariable(
+    'SYSTEM_PULLREQUEST_SOURCEBRANCH'
+  ) as string;
+  const targetBranch: string = tl.getVariable(
+    'SYSTEM_PULLREQUEST_TARGETBRANCH'
+  ) as string;
+
+  const source: string = sourceBranch.replace(
+    /(^refs\/heads\/)/gi,
+    'remotes/origin/'
+  );
+  const target: string = targetBranch.replace(
+    /(^refs\/heads\/)/gi,
+    'remotes/origin/'
+  );
+
+  const gitPath = tl.which('git', true);
+  const command = `rev-list ${source}...${target} > ${pathReport}/commits`;
+
+  const cliCommand = utils.cliJoin(gitPath, command);
+
+  try {
+    utils.executeCliCommand(cliCommand, workDir, null);
+  } catch (error) {
+    console.error('Failed executeCliCommand :' + error.message);
+  }
+}
+
 export async function scan(cliPath: string): Promise<void> {
   let workDir = tl.getVariable('System.DefaultWorkingDirectory');
   let temp = tl.getVariable('Agent.TempDirectory');
-  if (!workDir || !temp ) {
+  if (!workDir || !temp) {
     tl.setResult(
       tl.TaskResult.Failed,
       'Failed getting default working directory.'
@@ -76,7 +128,18 @@ export async function scan(cliPath: string): Promise<void> {
     folderNameReport,
     'gitscan-' + Date.now() + '.json'
   );
-  const cliUploadCommand = `--repo-path=${workDir} --config=${__dirname}/rules.toml --report=${specPath}`;
+  const rules: string = getRules();
+  let cliUploadCommand = `--repo-path=${workDir} --config=${rules} --report=${specPath}`;
+  const reason = tl.getVariable('BUILD_REASON');
+  console.log('Reason:', reason);
+  if (reason == 'All commits in PullRequest') {
+    console.log('PullRequest');
+    pullRequestConfig(pathReport, workDir);
+    cliUploadCommand += ` --commits-file=${pathReport}/commits`;
+  } else {
+    console.log('All commits in Branch');
+  }
+
   let cliCommand = utils.cliJoin(cliPath, cliUploadCommand);
   try {
     utils.executeCliCommand(cliCommand, workDir, null);
@@ -87,12 +150,14 @@ export async function scan(cliPath: string): Promise<void> {
   } finally {
     // Remove created file result from file system.
     try {
-      if(fs.existsSync(specPath)){
-        tl.debug("Create report html");
-        tl.warning("Repository leaks were detected, visit the Extensions tab to see the report");
+      if (fs.existsSync(specPath)) {
+        tl.debug('Create report html');
+        tl.warning(
+          'Repository leaks were detected, visit the Extensions tab to see the report'
+        );
         await reportHTML(specPath, pathReport);
       }
-      tl.debug("Remove report");
+      tl.debug('Remove report');
       tl.rmRF(specPath);
     } catch (fileException) {
       tl.setResult(
