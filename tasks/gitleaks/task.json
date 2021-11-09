@@ -16,9 +16,16 @@
     "version": {
         "Major": 1,
         "Minor": 0,
-        "Patch": 32
+        "Patch": 33
     },
     "instanceNameFormat": "Git Scan",
+    "groups": [
+        {
+            "name": "advanced",
+            "displayName": "Advanced",
+            "isExpanded": false
+        }
+    ],
     "inputs": [
         {
             "name": "type",
@@ -64,7 +71,21 @@
             "label": "Working directory",
             "defaultValue": "",
             "required": false,
-            "helpMarkDown": "Working directory in which to run the git scan. If not specified, the repository root directory is used."
+            "helpMarkDown": "Working directory in which to run the git scan. If not specified, the repository root directory is used.",
+            "groupName": "advanced"
+        },
+        {
+            "name": "cliBaseUrl",
+            "type": "string",
+            "label": "Cli base url",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "specify URL. https://github.com/zricethezav/gitleaks/releases/download/",
+            "validation": {
+                "expression": "isUrl(value)",
+                "message": "InvalidURL"
+            },
+            "groupName": "advanced"
         }
     ],
     "execution": {

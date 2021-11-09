@@ -75,10 +75,15 @@ function getCliPath(
   });
 }
 
+function getBaseUrl(): string {
+  const cliBaseUrl = tl.getInput('cliBaseUrl');
+  return cliBaseUrl ? cliBaseUrl : gitleaksCliBintrayUrl;
+}
+
 function buildBintrayDownloadUrl(
   cliVersion = defaultGitleaksCliVersion
 ): string {
-  return gitleaksCliBintrayUrl + cliVersion + '/' + btPackage;
+  return getBaseUrl() + cliVersion + '/' + btPackage;
 }
 
 function generateDownloadCliErrorMessage(
