@@ -10,6 +10,7 @@ This extension uses the powerful Gitleak to analyze the credentials in repositor
   displayName: 'Git Scan'
   inputs:
     type: Default
+    mode: Info
 ```
 
 ## Display in Report
@@ -18,6 +19,6 @@ You can display gitleaks report in the pipeline in the extensions tab.
 
 ![](static/screenshot.png)
 
-## How do I remove a secret from git's history?
+## Remove a secret from git history
 
 [Github](https://docs.github.com/en/github/authenticating-to-github/removing-sensitive-data-from-a-repository) has a great article on this using the [BFG Repo Cleaner](https://rtyley.github.io/bfg-repo-cleaner/).

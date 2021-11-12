@@ -9,14 +9,12 @@
         "Release",
         "Build"
     ],
-    "demands": [
-        "npm"
-    ],
+    "demands": [],
     "author": "davidpolaniaac",
     "version": {
         "Major": 1,
         "Minor": 0,
-        "Patch": 33
+        "Patch": 40
     },
     "instanceNameFormat": "Git Scan",
     "groups": [
@@ -31,7 +29,7 @@
             "name": "type",
             "type": "pickList",
             "label": "Type",
-            "defaultValue": "",
+            "defaultValue": "Default Rules",
             "required": true,
             "helpMarkDown": "File Path or Inline Rules",
             "options": {
@@ -66,26 +64,17 @@
             "visibleRule": "type = InlineRules"
         },
         {
-            "name": "workingDirectory",
-            "type": "filePath",
-            "label": "Working directory",
-            "defaultValue": "",
-            "required": false,
-            "helpMarkDown": "Working directory in which to run the git scan. If not specified, the repository root directory is used.",
-            "groupName": "advanced"
-        },
-        {
-            "name": "cliBaseUrl",
-            "type": "string",
-            "label": "Cli base url",
-            "defaultValue": "",
-            "required": false,
-            "helpMarkDown": "specify URL. https://github.com/zricethezav/gitleaks/releases/download/",
-            "validation": {
-                "expression": "isUrl(value)",
-                "message": "InvalidURL"
-            },
-            "groupName": "advanced"
+            "name": "mode",
+            "type": "pickList",
+            "label": "Mode",
+            "defaultValue": "Info",
+            "required": true,
+            "helpMarkDown": "Execution mode",
+            "options": {
+                "Info": "Info",
+                "Warning": "Warning",
+                "Strict": "Strict"
+            }
         }
     ],
     "execution": {

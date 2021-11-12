@@ -57,7 +57,6 @@ function execNpm(command, cwd) {
 function packageTask(taskDir) {
     copySources(taskDir, "icon.png");
     copySources(taskDir, "task.json");
-    copySources(taskDir, "rules.toml");
     copySources(taskDir, "package.json");
     let taskPackage = path.join(taskDir, "dist");
     execNpm('i', taskPackage);

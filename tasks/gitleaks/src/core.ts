@@ -13,7 +13,7 @@ const gitleaksFolderPath = encodePath(
 const gitleaksLegacyFolderPath = encodePath(
   path.join(tl.getVariable('Agent.WorkFolder') as string, '_gitleaks')
 );
-const defaultGitleaksCliVersion = 'v6.2.0';
+const defaultGitleaksCliVersion = 'v7.6.1';
 const customFolderPath = encodePath(path.join(gitleaksFolderPath, 'current'));
 const customCliPath = encodePath(path.join(customFolderPath, fileName)); // Optional - Customized gitleaks-cli path.
 const customLegacyCliPath = encodePath(
@@ -76,8 +76,7 @@ function getCliPath(
 }
 
 function getBaseUrl(): string {
-  const cliBaseUrl = tl.getInput('cliBaseUrl');
-  return cliBaseUrl ? cliBaseUrl : gitleaksCliBintrayUrl;
+  return gitleaksCliBintrayUrl;
 }
 
 function buildBintrayDownloadUrl(
