@@ -1,9 +1,10 @@
-import * as tl from 'azure-pipelines-task-lib/task';
-import * as path from 'path';
 import * as fs from 'fs';
-import * as utils from './core';
+import * as path from 'path';
+import * as tl from 'azure-pipelines-task-lib/task';
 
-export function getMode(): tl.TaskResult {
+import { cliJoin, executeCliCommand } from './cli';
+
+export function setResultMode(message: string): void {
   const mode = tl.getInput('mode', true);
   let modeExecution = tl.TaskResult.Succeeded;
   switch (mode) {
@@ -15,10 +16,10 @@ export function getMode(): tl.TaskResult {
       break;
     default:
       tl.debug('Default mode is infromative');
+      tl.warning(message);
       break;
   }
-
-  return modeExecution;
+  tl.setResult(modeExecution, message);
 }
 
 export function getRulesDirectory(scanDirectory: string): string {
@@ -66,11 +67,11 @@ export function getCommitsFromPullRequest(
   const commitsPath = path.join(scanDirectory, '.commits.log');
   const gitPath = tl.which('git', true);
   const cliArguments = `rev-list ${source}...${target} > ${commitsPath}`;
-  const cliCommand = utils.cliJoin(gitPath, cliArguments);
+  const cliCommand = cliJoin(gitPath, cliArguments);
 
   try {
-    utils.executeCliCommand(cliCommand, workDir, null);
-  } catch (error) {
+    executeCliCommand(cliCommand, workDir, null);
+  } catch (error: any) {
     console.error('Failed executeCliCommand :' + error.message);
   }
 

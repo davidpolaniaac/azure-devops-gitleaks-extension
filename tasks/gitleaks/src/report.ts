@@ -51,7 +51,7 @@ export function reportHTML(scanDirectory: string, reportFile: string): void {
     'task.addattachment',
     {
       type: 'Distributedtask.Core.Summary',
-      name: 'Git Secrets Scanning'
+      name: 'Git Secrets Scanning',
     },
     report
   );

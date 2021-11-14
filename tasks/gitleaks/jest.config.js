@@ -1,13 +1,13 @@
-const path = require("path");
 module.exports = {
-  rootDir: path.join(__dirname),
+  roots: ['<rootDir>/src'],
   verbose: true,
-  moduleFileExtensions: ["js", "ts", "json"],
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   testPathIgnorePatterns: ["/node_modules/"],
   collectCoverageFrom: [
     "**/*.{ts,tsx}",
     "!<rootDir>/node_modules/"
   ],
+  preset: "ts-jest",
   collectCoverage: true,
   transform: { "^.+\\.ts?$": "ts-jest" },
   testEnvironment: "node",

@@ -1,14 +1,10 @@
-const path = require("path");
-const rootDir = path.join(__dirname);
 module.exports = {
-
     moduleFileExtensions: ["js", "ts", "json"],
     testPathIgnorePatterns: ["/node_modules/"],
     projects: [
-
-        path.join(`${rootDir}`, "tasks/*/jest.config.js"),
+        "<rootDir>/tasks/*/jest.config.js",
     ],
-    testMatch: [path.join(`${rootDir}`, "tasks/*/**/*.spec.ts")],
+    testMatch: ["<rootDir>/tasks/*/**/*.spec.ts"],
     testEnvironment: "node",
     transform: { "^.+\\.ts?$": "ts-jest" },
     collectCoverageFrom: [
@@ -16,7 +12,7 @@ module.exports = {
     ],
     collectCoverage: true,
 
-    coverageDirectory: path.join(`${rootDir}`, '/coverage/'),
-    coverageReporters: ["html", "json", "lcov", "text", "clover"],
+    coverageDirectory: '<rootDir>/coverage/',
+    coverageReporters: ["html", "json", "lcov", "text", "clover", "cobertura"],
     reporters: ['default', 'jest-sonar']
 }

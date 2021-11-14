@@ -1,9 +1,15 @@
-import * as tl from 'azure-pipelines-task-lib/task';
-import * as path from 'path';
 import * as fs from 'fs';
-import * as utils from './core';
+import * as path from 'path';
+import * as tl from 'azure-pipelines-task-lib/task';
+
+import { cliJoin, executeCliCommand } from './cli';
+import {
+  getCommitsFromPullRequest,
+  getRulesDirectory,
+  setResultMode,
+} from './util';
+
 import { reportHTML } from './report';
-import { getCommitsFromPullRequest, getMode, getRulesDirectory } from './util';
 
 export function scan(cliPath: string): void {
   const workDir: string = tl.getVariable(
@@ -30,21 +36,20 @@ export function scan(cliPath: string): void {
     console.log('All commits in Branch');
   }
 
-  const cliCommand = utils.cliJoin(cliPath, cliArguments);
+  const cliCommand = cliJoin(cliPath, cliArguments);
 
   try {
-    utils.executeCliCommand(cliCommand, workDir, null);
-  } catch (executionException) {
-    console.error('Failed executeCliCommand :' + executionException.message);
-    tl.setResult(getMode(), 'with runtime errors');
+    executeCliCommand(cliCommand, workDir, null);
+  } catch (error: any) {
+    console.error('Failed executeCliCommand :' + error.message);
+    setResultMode('with runtime errors');
   } finally {
     // Remove created file result from file system.
     try {
       if (fs.existsSync(report)) {
         tl.debug('Create report html');
         reportHTML(scanDirectory, report);
-        tl.setResult(
-          getMode(),
+        setResultMode(
           'Repository leaks were detected, visit the Extensions tab to see the report'
         );
         tl.debug('Remove report');

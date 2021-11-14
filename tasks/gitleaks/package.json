@@ -1,5 +1,5 @@
 {
-  "name": "gitleaks",
+  "name": "gitleaks-scan",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -13,13 +13,13 @@
     "azure-pipelines-tool-lib": "^1.0.0-preview.0"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.15",
-    "@types/jest-when": "^2.7.2",
+    "@types/jest": "^27.0.2",
+    "@types/jest-when": "^2.7.3",
     "@types/node": "^13.11.0",
     "@types/q": "^1.5.4",
-    "jest": "^26.6.0",
-    "jest-when": "^2.8.0",
-    "ts-jest": "^26.4.1",
-    "typescript": "^3.8.3"
+    "jest": "^27.0.1",
+    "jest-when": "^3.4.2",
+    "ts-jest": "^27.0.7",
+    "typescript": "^4.4.4"
   }
 }
