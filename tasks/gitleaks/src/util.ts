@@ -66,7 +66,7 @@ export function getCommitsFromPullRequest(
 
   const commitsPath = path.join(scanDirectory, '.commits.log');
   const gitPath = tl.which('git', true);
-  const cliArguments = `rev-list ${source}...${target} > ${commitsPath}`;
+  const cliArguments = `rev-list ${target}..${source} > ${commitsPath}`;
   const cliCommand = cliJoin(gitPath, cliArguments);
 
   try {
