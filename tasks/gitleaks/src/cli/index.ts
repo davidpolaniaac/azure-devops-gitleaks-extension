@@ -22,10 +22,6 @@ export async function configureCliTask(
     runCbk(cliPath);
     return cliPath;
   } catch (error: any) {
-    tl.setResult(
-      tl.TaskResult.Failed,
-      'Error occurred while executing task:\n' + error
-    );
     throw new Error(error.message);
   }
 }

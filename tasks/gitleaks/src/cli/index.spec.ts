@@ -1,6 +1,5 @@
 import * as cliTool from './cliTool';
 import * as command from './command';
-import * as tl from 'azure-pipelines-task-lib/task';
 import * as url from './url';
 
 import { cliJoin, configureCliTask, executeCliCommand } from './index';
@@ -8,7 +7,6 @@ import { cliJoin, configureCliTask, executeCliCommand } from './index';
 import child_process from 'child_process';
 import fs from 'fs';
 
-jest.mock('azure-pipelines-task-lib/task');
 jest.mock('./url');
 jest.mock('./command');
 jest.mock('./cliTool');
@@ -49,12 +47,10 @@ describe('cli validation', () => {
     const cliPath = jest.spyOn(cliTool, 'getCliPath').mockImplementation(() => {
       throw new Error('test');
     });
-    const resultMock = jest.spyOn(tl, 'setResult').mockImplementation();
     //Act && Assert
     expect(configureCliTask()).rejects.toThrow('test');
     expect(urlMock).toHaveBeenCalled();
     expect(cliPath).toHaveBeenCalled();
-    expect(resultMock).toHaveBeenCalled();
   });
 
   test('when a cli is run then directory is validated and the cli', async () => {

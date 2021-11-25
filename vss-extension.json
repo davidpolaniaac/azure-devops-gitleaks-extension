@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "gitleaks",
     "name": "Gitleaks",
-    "version": "1.0.43",
+    "version": "1.0.44",
     "publisher": "davidpolaniaac",
     "targets": [
         {
