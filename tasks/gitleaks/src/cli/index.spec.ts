@@ -44,9 +44,7 @@ describe('cli validation', () => {
     const urlMock = jest
       .spyOn(url, 'buildBintrayDownloadUrl')
       .mockImplementation();
-    const cliPath = jest.spyOn(cliTool, 'getCliPath').mockImplementation(() => {
-      throw new Error('test');
-    });
+    const cliPath = jest.spyOn(cliTool, 'getCliPath').mockImplementation(() => Promise.reject("test"));
     //Act && Assert
     expect(configureCliTask()).rejects.toThrow('test');
     expect(urlMock).toHaveBeenCalled();

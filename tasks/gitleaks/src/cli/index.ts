@@ -22,7 +22,7 @@ export async function configureCliTask(
     runCbk(cliPath);
     return cliPath;
   } catch (error: any) {
-    throw new Error(error.message);
+    throw new Error(error);
   }
 }
 
